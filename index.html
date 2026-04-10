@@ -188,6 +188,41 @@ nav {
   grid-template-columns: 1fr;
   gap: 32px;
   padding: 24px 20px 40px;
+  /* Chips */
+.cw {
+  gap: 6px;
+}
+
+.chip {
+  font-size: 11px;
+  padding: 6px 12px;
+}
+
+/* Prevent overflow */
+body {
+  overflow-x: hidden;
+}
+
+.rc,
+.rbdy {
+  word-wrap: break-word;
+}
+  @media (max-width: 767px) {
+  .rnav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .rnr {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .rnr button {
+    flex: 1;
+  }
+}
 }
 
 .hero-pov {
