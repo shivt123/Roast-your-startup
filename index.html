@@ -173,6 +173,207 @@ nav{padding:20px 64px;display:flex;align-items:center;justify-content:space-betw
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .au{animation:fadeUp .4s ease both}
 @media print{.bg,.rnav,.bby,.pnote,.chcard{display:none!important}.rm{background:white!important;border-radius:0;max-height:none}.rb{padding:20px!important}.rc{background:#F8F8F8!important;border:1px solid #ddd!important;break-inside:avoid}.cn,.rst,.rtg,.en,.cp2,.rl,.agt,.cip{color:var(--ink)!important}.cl,.rtw,.rbdy,.ew,.agm,.cid{color:#444!important}.rg3,.rg2,.ag,.tldr{grid-template-columns:repeat(3,1fr)!important}}
+/* ============================= */
+/* 🔥 RESPONSIVE UPGRADE START  */
+/* ============================= */
+
+/* ===== MOBILE FIRST BASE ===== */
+
+nav {
+  padding: 16px 20px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  padding: 24px 20px 40px;
+}
+
+.hero-pov {
+  max-width: 100%;
+}
+
+.cta-stack {
+  max-width: 100%;
+}
+
+.btn-primary {
+  width: 100%;
+}
+
+.demo-cards {
+  gap: 12px;
+}
+
+.demo-card {
+  padding: 16px;
+}
+
+.how-strip {
+  grid-template-columns: 1fr;
+}
+
+.row2 {
+  grid-template-columns: 1fr;
+}
+
+.rg3,
+.rg2,
+.tldr,
+.ag {
+  grid-template-columns: 1fr;
+}
+
+/* Modal behavior fix */
+.overlay {
+  align-items: flex-start;
+}
+
+.free-modal,
+.form-modal,
+.rm {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.fbody {
+  padding: 16px;
+}
+
+/* Typography */
+.hero-h1 {
+  font-size: 2.2rem;
+  line-height: 1.1;
+}
+
+.cn {
+  font-size: 2rem;
+}
+
+/* Chips */
+.cw {
+  gap: 6px;
+}
+
+.chip {
+  font-size: 11px;
+  padding: 6px 12px;
+}
+
+/* Prevent overflow */
+body {
+  overflow-x: hidden;
+}
+
+.rc,
+.rbdy {
+  word-wrap: break-word;
+}
+
+/* ===== TABLET (iPad) ===== */
+@media (min-width: 768px) {
+
+  nav {
+    padding: 20px 32px;
+  }
+
+  .hero {
+    padding: 40px 32px 60px;
+    gap: 48px;
+  }
+
+  .hero-h1 {
+    font-size: 3rem;
+  }
+
+  .how-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rg2,
+  .tldr,
+  .ag {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .free-modal,
+  .form-modal,
+  .rm {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+}
+
+/* ===== DESKTOP ===== */
+@media (min-width: 1024px) {
+
+  nav {
+    padding: 20px 64px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    padding: 40px 64px 60px;
+  }
+
+  .hero-h1 {
+    font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+  }
+
+  .how-strip {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .rg3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .tldr {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .ag {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .free-modal {
+    max-width: 520px;
+  }
+
+  .form-modal {
+    max-width: 1100px;
+  }
+
+  .rm {
+    max-width: 1200px;
+  }
+}
+
+/* ===== MICRO UX POLISH ===== */
+
+/* Tap feel */
+.demo-card:active,
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent iOS zoom */
+input, textarea {
+  font-size: 16px;
+}
+
+/* ============================= */
+/* 🔥 RESPONSIVE UPGRADE END    */
+/* ============================= */
 </style>
 </head>
 <body>
