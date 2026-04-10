@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PositioningDecoded — Your positioning is probably wrong.</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,700;1,9..144,900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--coral:#FF5A36;--coral-light:#FFF0EC;--sky:#00B4D8;--sky-light:#E0F7FF;--mint:#00C48C;--mint-light:#E0FFF5;--purple:#7B5EA7;--purple-light:#F0EBFF;--amber:#FFB700;--amber-light:#FFF8E0;--pink:#FF4D8D;--ink:#1A1A2E;--ink2:#2D2D44;--cream:#FAFAF7;--border:#E8E8E8;--muted:#888}
+html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.15}
+.o1{width:700px;height:700px;background:var(--coral);top:-200px;left:-200px;animation:f1 14s ease-in-out infinite}
+.o2{width:600px;height:600px;background:var(--sky);top:100px;right:-200px;animation:f2 17s ease-in-out infinite}
+.o3{width:500px;height:500px;background:var(--mint);bottom:-100px;left:30%;animation:f3 12s ease-in-out infinite}
+.o4{width:350px;height:350px;background:var(--purple);bottom:50px;right:5%;animation:f1 16s ease-in-out infinite reverse}
+@keyframes f1{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,50px)}}
+@keyframes f2{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,30px)}}
+@keyframes f3{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-30px)}}
+.page{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
+nav{padding:20px 64px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.nav-brand{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:900;color:var(--ink);display:flex;align-items:center;gap:8px}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:var(--mint);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.nav-tag{background:white;border:1.5px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:500;color:var(--muted)}
+.hero{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding:40px 64px 60px;max-width:1400px;margin:0 auto;width:100%}
+.hero-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--coral);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.hero-eyebrow::before{content:'';width:24px;height:2px;background:var(--coral);display:inline-block}
+.hero-h1{font-family:'Fraunces',serif;font-size:clamp(2.8rem,4.5vw,4.2rem);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:20px}
+.hero-h1 em{color:var(--coral);font-style:italic}
+.hero-pov{font-size:16px;color:#555;line-height:1.6;margin-bottom:28px;max-width:440px}
+.hero-pov strong{color:var(--ink)}
+.free-badge{display:inline-flex;align-items:center;gap:8px;background:var(--mint-light);border:1.5px solid var(--mint);border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;color:#006644;margin-bottom:24px}
+.cta-stack{display:flex;flex-direction:column;gap:10px;max-width:380px}
+.btn-primary{padding:16px 28px;background:var(--ink);color:white;border:none;border-radius:10px;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px}
+.btn-primary:hover{background:var(--ink2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,26,46,.25)}
+.btn-hint{font-size:12px;color:var(--muted);text-align:center;line-height:1.5}
+.demo-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:14px}
+.demo-cards{display:flex;flex-direction:column;gap:10px}
+.demo-card{background:white;border:1.5px solid var(--border);border-radius:14px;padding:18px 20px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.demo-card:hover{border-color:var(--coral);transform:translateX(4px);box-shadow:0 4px 20px rgba(255,90,54,.12)}
+.demo-card-icon{font-size:28px;flex-shrink:0}
+.demo-card-name{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.demo-card-desc{font-size:12px;color:var(--muted)}
+.demo-card-arrow{margin-left:auto;font-size:18px;color:var(--border);transition:color .2s}
+.demo-card:hover .demo-card-arrow{color:var(--coral)}
+.how-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px}
+.how-item{background:white;border:1.5px solid var(--border);border-radius:10px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.how-num{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:900;color:var(--coral);opacity:.4;line-height:1;margin-bottom:6px}
+.how-title{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:3px}
+.how-desc{font-size:11px;color:var(--muted);line-height:1.4}
+.overlay{position:fixed;inset:0;z-index:500;background:rgba(15,15,30,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:24px;overflow-y:auto}
+.overlay.open{display:flex}
+.free-modal{background:white;border-radius:24px;padding:40px;max-width:520px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.3)}
+.free-modal-title{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:900;color:var(--ink);margin-bottom:8px}
+.free-modal-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:24px}
+.ffield{margin-bottom:16px}
+.fl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+.fi{width:100%;font-family:'DM Sans',sans-serif;font-size:15px;background:#F8F8F8;border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--ink);outline:none;transition:all .2s}
+.fi:focus{border-color:var(--coral);background:white;box-shadow:0 0 0 3px rgba(255,90,54,.08)}
+.fhint{font-size:11px;color:var(--muted);margin-top:4px}
+.fhint a{color:var(--coral);text-decoration:none}
+.fm-acts{display:flex;gap:10px;margin-top:8px}
+.btn-go{flex:1;padding:14px;background:var(--coral);color:white;border:none;border-radius:10px;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-go:hover{background:#e04d2a;transform:translateY(-1px)}
+.btn-go:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-mc{padding:14px 18px;background:none;border:1.5px solid var(--border);border-radius:10px;font-size:14px;color:var(--muted);cursor:pointer}
+.fm-note{font-size:11px;color:#aaa;text-align:center;margin-top:14px;line-height:1.5}
+.used-msg{background:var(--amber-light);border:1.5px solid var(--amber);border-radius:10px;padding:14px 18px;font-size:13px;color:#7a5f00;margin-bottom:16px;line-height:1.5;display:none}
+.form-modal{background:var(--cream);border-radius:24px;width:100%;max-width:1100px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.3)}
+.form-modal-nav{padding:20px 32px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:white;border-radius:24px 24px 0 0;position:sticky;top:0;z-index:10}
+.fmt{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;color:var(--ink)}
+.fprog{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
+.pbar{width:120px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.pfill{height:100%;background:var(--coral);border-radius:2px;transition:width .3s ease;width:0%}
+.btnx{background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;padding:4px 8px;border-radius:6px}
+.btnx:hover{background:#f0f0f0}
+.fbody{padding:28px 32px}
+.fsec{background:white;border:1.5px solid var(--border);border-radius:16px;padding:28px;margin-bottom:16px;position:relative;overflow:hidden}
+.fsec::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.fc::before{background:var(--coral)}.fs::before{background:var(--sky)}.fm::before{background:var(--mint)}.fp::before{background:var(--purple)}.fa::before{background:var(--amber)}
+.fsh{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px}
+.fst{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:900;color:var(--ink);line-height:1.1}
+.fss{font-size:12px;color:var(--muted);margin-top:3px}
+.fbadge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.bc{background:var(--coral-light);color:var(--coral)}.bs{background:var(--sky-light);color:var(--sky)}.bm{background:var(--mint-light);color:var(--mint)}.bp{background:var(--purple-light);color:var(--purple)}.ba{background:var(--amber-light);color:var(--amber)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ti{width:100%;font-family:'DM Sans',sans-serif;font-size:14px;background:#F8F8F8;border:1.5px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--ink);outline:none;transition:all .2s}
+.ti:focus{border-color:var(--coral);background:white}
+.cw{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:#F5F5F5;border:1.5px solid var(--border);border-radius:24px;padding:8px 16px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;user-select:none;position:relative}
+.chip:hover{border-color:var(--ink);background:white;transform:translateY(-1px)}
+.emo{font-size:14px}
+.pb{position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;background:var(--ink);color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s}
+.chip.sel .pb{opacity:1}
+.cc.sel{background:var(--coral);color:white;border-color:var(--coral);box-shadow:0 3px 12px rgba(255,90,54,.3);transform:translateY(-2px)}
+.cs.sel{background:var(--sky);color:white;border-color:var(--sky);box-shadow:0 3px 12px rgba(0,180,216,.3);transform:translateY(-2px)}
+.cm.sel{background:var(--mint);color:white;border-color:var(--mint);box-shadow:0 3px 12px rgba(0,196,140,.3);transform:translateY(-2px)}
+.cp.sel{background:var(--purple);color:white;border-color:var(--purple);box-shadow:0 3px 12px rgba(123,94,167,.3);transform:translateY(-2px)}
+.ca.sel{background:var(--amber);color:var(--ink);border-color:var(--amber);box-shadow:0 3px 12px rgba(255,183,0,.3);transform:translateY(-2px)}
+.fsub{width:100%;padding:18px;background:var(--ink);color:white;border:none;border-radius:12px;font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px}
+.fsub:hover{background:var(--ink2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,26,46,.25)}
+.fsub:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sp{animation:spin 3s linear infinite;display:inline-block}
+.ferr{background:#FFF0EC;border:1.5px solid var(--coral);border-radius:8px;padding:12px 16px;color:var(--coral);font-size:13px;margin-bottom:14px;display:none}
+.loading-box{background:var(--cream);border-radius:20px;padding:48px;text-align:center;max-width:400px;width:100%}
+.lsp{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--coral);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 20px}
+.lt{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:900;color:var(--ink);margin-bottom:8px}
+.ls{font-size:14px;color:var(--muted);margin-bottom:16px}
+.lsteps{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.lstep{font-size:11px;padding:4px 10px;border-radius:20px;background:#F0F0F0;color:var(--muted);transition:all .3s}
+.lstep.active{background:var(--coral);color:white}
+.rm{background:var(--ink);border-radius:24px;width:100%;max-width:1200px;max-height:92vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.4)}
+.rnav{background:var(--ink2);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;border-radius:24px 24px 0 0;position:sticky;top:0;z-index:10;border-bottom:1px solid rgba(255,255,255,.08)}
+.rnb{font-family:'Fraunces',serif;font-size:.95rem;font-weight:700;color:white}
+.rnr{display:flex;gap:8px;align-items:center}
+.brs{background:var(--coral);color:white;border:none;border-radius:8px;padding:7px 16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .2s}
+.brs:hover{opacity:.85}
+.brl,.brp{background:rgba(255,255,255,.1);color:white;border:none;border-radius:8px;padding:7px 16px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:background .2s}
+.brl:hover,.brp:hover{background:rgba(255,255,255,.18)}
+.brc{background:none;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s}
+.brc:hover{color:white;border-color:rgba(255,255,255,.4)}
+.rb{padding:40px}
+.bby{text-align:right;font-size:11px;color:rgba(255,255,255,.25);margin-bottom:24px}
+.bby a{color:rgba(255,255,255,.4);text-decoration:none;font-weight:600}
+.bby a:hover{color:white}
+.pnote{background:rgba(255,255,255,.05);border-left:3px solid var(--mint);border-radius:0 10px 10px 0;padding:14px 20px;margin-bottom:28px;font-size:13px;color:rgba(255,255,255,.55);line-height:1.5}
+.pnote strong{color:var(--mint)}
+.tldr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:28px}
+.ti2{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:16px}
+.tl2{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;margin-bottom:8px}
+.tv{font-size:13px;color:rgba(255,255,255,.7);line-height:1.5}
+.cb{margin-bottom:36px}
+.cn{font-family:'Fraunces',serif;font-size:clamp(2.5rem,5vw,5rem);font-weight:900;color:white;line-height:.9;letter-spacing:-.03em;margin-bottom:14px}
+.cl{font-size:clamp(.9rem,1.5vw,1.1rem);color:rgba(255,255,255,.55);max-width:650px;line-height:1.6}
+.cwm{display:inline-block;margin-top:10px;font-size:10px;color:rgba(255,255,255,.18);letter-spacing:.08em;text-transform:uppercase}
+.rg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.rg2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.rgf{margin-bottom:16px}
+.rc{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .2s}
+.rc:hover{transform:translateY(-2px)}
+.rcb{position:absolute;top:0;left:0;right:0;height:3px}
+.rl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.18em;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.rld{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.rst{font-family:'Fraunces',serif;font-size:clamp(.95rem,1.5vw,1.2rem);font-weight:700;line-height:1.4;color:white}
+.rtg{font-family:'Fraunces',serif;font-size:clamp(1.3rem,2.5vw,2rem);font-weight:900;font-style:italic;color:white;line-height:1.1;margin-bottom:8px}
+.rtw{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5}
+.rbdy{font-size:13px;color:rgba(255,255,255,.55);line-height:1.7}
+.er{display:flex;gap:12px;align-items:flex-start}
+.ei{font-size:28px;flex-shrink:0}
+.en{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:white;margin-bottom:5px}
+.ew{font-size:12px;color:rgba(255,255,255,.45);line-height:1.6}
+.cp2{display:inline-block;border:2px solid rgba(255,255,255,.2);border-radius:6px;padding:6px 14px;font-family:'Fraunces',serif;font-size:.95rem;font-weight:700;color:white;margin-bottom:10px}
+.ag{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.agi{border-radius:8px;padding:16px}
+.agt{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;margin-bottom:6px}
+.agm{font-size:12px;line-height:1.6;color:rgba(255,255,255,.7)}
+.cil{display:flex;flex-direction:column;gap:10px}
+.cii{display:flex;gap:14px;align-items:flex-start;padding:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px}
+.cin{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:900;color:rgba(255,255,255,.12);line-height:1;min-width:28px;flex-shrink:0}
+.cip{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px}
+.cid{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6}
+.chcard{margin-bottom:16px;background:rgba(255,90,54,.1);border:1px solid rgba(255,90,54,.2);border-radius:14px;padding:24px}
+.sbox{background:white;border-radius:20px;padding:32px;max-width:520px;width:100%}
+.stit{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:900;color:var(--ink);margin-bottom:6px}
+.ssub{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5}
+.spost{background:#F5F5F5;border:1.5px solid var(--border);border-radius:8px;padding:16px;font-size:13px;line-height:1.7;color:var(--ink);margin-bottom:16px;white-space:pre-wrap;max-height:200px;overflow-y:auto}
+.sacts{display:flex;gap:8px}
+.bcopy{flex:1;padding:12px;background:var(--ink);color:white;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer}
+.bsc{padding:12px 18px;background:none;border:1.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--muted);cursor:pointer}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.au{animation:fadeUp .4s ease both}
+@media print{.bg,.rnav,.bby,.pnote,.chcard{display:none!important}.rm{background:white!important;border-radius:0;max-height:none}.rb{padding:20px!important}.rc{background:#F8F8F8!important;border:1px solid #ddd!important;break-inside:avoid}.cn,.rst,.rtg,.en,.cp2,.rl,.agt,.cip{color:var(--ink)!important}.cl,.rtw,.rbdy,.ew,.agm,.cid{color:#444!important}.rg3,.rg2,.ag,.tldr{grid-template-columns:repeat(3,1fr)!important}}
+</style>
+</head>
+<body>
+<div class="bg"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div></div>
+
+<div class="page" id="mainPage">
+  <nav>
+    <div class="nav-brand"><div class="nav-dot"></div>PositioningDecoded</div>
+    <div class="nav-tag">For founders, PMs and marketers</div>
+  </nav>
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">The positioning tool</div>
+      <h1 class="hero-h1">Your positioning<br>is probably <em>wrong.</em></h1>
+      <p class="hero-pov"><strong>"Most founders don't have a positioning problem.</strong> They have a thinking problem. Clarity is your unfair advantage."</p>
+      <div class="free-badge">✦ 3 free brand breakdowns — no signup, no credit card</div>
+      <div class="cta-stack">
+        <button class="btn-primary" onclick="openFreeModal()"><span class="sp">✦</span>Generate my positioning for free</button>
+        <p class="btn-hint">3 free runs per device. After that, use your own Anthropic API key — free to get at console.anthropic.com.</p>
+      </div>
+    </div>
+    <div>
+      <div class="demo-label">Or see live examples — no signup needed</div>
+      <div class="demo-cards">
+        <div class="demo-card" onclick="openDemo('apollo')"><div class="demo-card-icon">🏢</div><div><div class="demo-card-name">Apollo.io</div><div class="demo-card-desc">B2B SaaS · Sales Leaders · Revenue Growth</div></div><div class="demo-card-arrow">→</div></div>
+        <div class="demo-card" onclick="openDemo('linear')"><div class="demo-card-icon">⚙️</div><div><div class="demo-card-name">Linear</div><div class="demo-card-desc">Dev Tools · Engineers · Removes manual work</div></div><div class="demo-card-arrow">→</div></div>
+        <div class="demo-card" onclick="openDemo('loom')"><div class="demo-card-icon">📹</div><div><div class="demo-card-name">Loom</div><div class="demo-card-desc">Consumer App · Remote Teams · Collaboration</div></div><div class="demo-card-arrow">→</div></div>
+      </div>
+      <div class="how-strip">
+        <div class="how-item"><div class="how-num">01</div><div class="how-title">Answer 5 questions</div><div class="how-desc">Category, customer, problems, differentiators, stage. First click sets priority.</div></div>
+        <div class="how-item"><div class="how-num">02</div><div class="how-title">Get your breakdown</div><div class="how-desc">Positioning, tagline, enemy, messaging angles, and what makes you weird.</div></div>
+        <div class="how-item"><div class="how-num">03</div><div class="how-title">Share or download</div><div class="how-desc">Copy a shareable link, post to LinkedIn, or download as PDF.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FREE MODAL -->
+<div class="overlay" id="freeOverlay">
+  <div class="free-modal">
+    <div class="free-modal-title">Get your free breakdown</div>
+    <div class="free-modal-sub" id="freeRunsLeft">3 free generations per device. Enter your email to save results.</div>
+    <div class="used-msg" id="usedMsg">You have used all 3 free runs. Enter your Anthropic API key below to keep going — free to get at console.anthropic.com.</div>
+    <div class="ffield"><div class="fl">Your startup name</div><input type="text" id="fmCo" class="fi" placeholder="e.g. Ramp, Notion, Acme..." /></div>
+    <div class="ffield"><div class="fl">Email — optional, saves your results</div><input type="email" id="fmEmail" class="fi" placeholder="you@startup.com" /><div class="fhint">Never shared. Used only to save your positioning.</div></div>
+    <div class="ffield" id="apiField" style="display:none"><div class="fl">Anthropic API Key (for additional runs)</div><input type="password" id="fmKey" class="fi" placeholder="sk-ant-..." /><div class="fhint">Free to get at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> — stays in your browser only.</div></div>
+    <div class="fm-acts"><button class="btn-go" id="fmGoBtn" onclick="startForm()">Continue to questions →</button><button class="btn-mc" onclick="closeOv('freeOverlay')">Cancel</button></div>
+    <div class="fm-note">Your first 3 runs are on the house. Additional runs use your own key (~$0.01 each).</div>
+  </div>
+</div>
+
+<!-- FORM MODAL -->
+<div class="overlay" id="formOverlay">
+  <div class="form-modal">
+    <div class="form-modal-nav">
+      <div class="fmt">Decode My Positioning</div>
+      <div class="fprog"><span id="pLabel">0 of 5</span><div class="pbar"><div class="pfill" id="pFill"></div></div></div>
+      <button class="btnx" onclick="closeOv('formOverlay')">✕</button>
+    </div>
+    <div class="fbody">
+      <div class="ferr" id="fErr"></div>
+      <div class="fsec fc">
+        <div class="fsh"><div><div class="fst">Tell us about your startup</div><div class="fss">Company name and a one-liner if you have one</div></div></div>
+        <div class="row2"><div><div class="fl">Company Name</div><input type="text" id="qCo" class="ti" placeholder="e.g. Ramp, Notion, Acme..." /></div><div><div class="fl">One-line description (optional)</div><input type="text" id="qDesc" class="ti" placeholder="e.g. AI tool that writes sales emails" /></div></div>
+      </div>
+      <div class="fsec fc">
+        <div class="fsh"><div><div class="fst">What space are you in?</div><div class="fss">Pick one primary category</div></div><div class="fbadge bc">Single select</div></div>
+        <div class="cw" id="q1">
+          <div class="chip cc" data-v="B2B SaaS"><span class="emo">🏢</span>B2B SaaS<div class="pb"></div></div>
+          <div class="chip cc" data-v="Consumer App"><span class="emo">📱</span>Consumer App<div class="pb"></div></div>
+          <div class="chip cc" data-v="Developer Tools"><span class="emo">⚙️</span>Dev Tools<div class="pb"></div></div>
+          <div class="chip cc" data-v="Marketplace"><span class="emo">🛒</span>Marketplace<div class="pb"></div></div>
+          <div class="chip cc" data-v="Fintech"><span class="emo">💰</span>Fintech<div class="pb"></div></div>
+          <div class="chip cc" data-v="Healthcare"><span class="emo">🏥</span>Healthcare<div class="pb"></div></div>
+          <div class="chip cc" data-v="AI Infrastructure"><span class="emo">🤖</span>AI Infra<div class="pb"></div></div>
+          <div class="chip cc" data-v="Creator Tools"><span class="emo">✨</span>Creator Tools<div class="pb"></div></div>
+          <div class="chip cc" data-v="Enterprise Software"><span class="emo">🏛️</span>Enterprise<div class="pb"></div></div>
+          <div class="chip cc" data-v="Other"><span class="emo">🌐</span>Other<div class="pb"></div></div>
+        </div>
+      </div>
+      <div class="fsec fs">
+        <div class="fsh"><div><div class="fst">Who feels the pain most?</div><div class="fss">Select all that apply. First pick = primary customer.</div></div><div class="fbadge bs">Multi-select, ordered</div></div>
+        <div class="cw" id="q2">
+          <div class="chip cs" data-v="Founders and CEOs"><span class="emo">🚀</span>Founders<div class="pb"></div></div>
+          <div class="chip cs" data-v="Sales Leaders"><span class="emo">📈</span>Sales Leaders<div class="pb"></div></div>
+          <div class="chip cs" data-v="Marketing Teams"><span class="emo">📣</span>Marketing<div class="pb"></div></div>
+          <div class="chip cs" data-v="Engineers"><span class="emo">💻</span>Engineers<div class="pb"></div></div>
+          <div class="chip cs" data-v="Operations Teams"><span class="emo">⚡</span>Operations<div class="pb"></div></div>
+          <div class="chip cs" data-v="Finance Teams"><span class="emo">📊</span>Finance<div class="pb"></div></div>
+          <div class="chip cs" data-v="HR and People Teams"><span class="emo">👥</span>HR and People<div class="pb"></div></div>
+          <div class="chip cs" data-v="Individual Consumers"><span class="emo">🙋</span>Consumers<div class="pb"></div></div>
+          <div class="chip cs" data-v="Developers"><span class="emo">🛠️</span>Developers<div class="pb"></div></div>
+          <div class="chip cs" data-v="Product Managers"><span class="emo">🎯</span>Product Managers<div class="pb"></div></div>
+        </div>
+      </div>
+      <div class="fsec fm">
+        <div class="fsh"><div><div class="fst">What core problems do you solve?</div><div class="fss">Up to 3. First click = most important.</div></div><div class="fbadge bm">Up to 3, ranked</div></div>
+        <div class="cw" id="q3">
+          <div class="chip cm" data-v="saves time"><span class="emo">⏱</span>Saves time<div class="pb"></div></div>
+          <div class="chip cm" data-v="reduces cost"><span class="emo">💸</span>Reduces cost<div class="pb"></div></div>
+          <div class="chip cm" data-v="drives revenue growth"><span class="emo">📈</span>Drives revenue<div class="pb"></div></div>
+          <div class="chip cm" data-v="replaces manual repetitive work"><span class="emo">🤖</span>Removes manual work<div class="pb"></div></div>
+          <div class="chip cm" data-v="creates clarity and focus"><span class="emo">🔍</span>Creates clarity<div class="pb"></div></div>
+          <div class="chip cm" data-v="reduces risk and errors"><span class="emo">🛡</span>Reduces risk<div class="pb"></div></div>
+          <div class="chip cm" data-v="enables team collaboration"><span class="emo">🤝</span>Collaboration<div class="pb"></div></div>
+          <div class="chip cm" data-v="scales operations without hiring"><span class="emo">📦</span>Scales without hiring<div class="pb"></div></div>
+          <div class="chip cm" data-v="improves decision quality"><span class="emo">🧠</span>Better decisions<div class="pb"></div></div>
+        </div>
+      </div>
+      <div class="fsec fp">
+        <div class="fsh"><div><div class="fst">How are you genuinely different?</div><div class="fss">Up to 3. First click = strongest differentiator.</div></div><div class="fbadge bp">Up to 3, ranked</div></div>
+        <div class="cw" id="q4">
+          <div class="chip cp" data-v="replaces an entire workflow end to end"><span class="emo">💣</span>Replaces entire workflow<div class="pb"></div></div>
+          <div class="chip cp" data-v="makes a specific role obsolete"><span class="emo">🪦</span>Makes a role obsolete<div class="pb"></div></div>
+          <div class="chip cp" data-v="forces a behavior change in how teams work"><span class="emo">🧠</span>Forces behavior change<div class="pb"></div></div>
+          <div class="chip cp" data-v="works without any human input once set up"><span class="emo">🤖</span>Fully autonomous<div class="pb"></div></div>
+          <div class="chip cp" data-v="built for the person doing the work not the buyer"><span class="emo">❤️</span>Built for the doer<div class="pb"></div></div>
+          <div class="chip cp" data-v="turns hours of work into seconds"><span class="emo">⚡</span>Hours to seconds<div class="pb"></div></div>
+          <div class="chip cp" data-v="works on day one without setup or training"><span class="emo">🔌</span>Works on day one<div class="pb"></div></div>
+          <div class="chip cp" data-v="built for one vertical with deep domain knowledge"><span class="emo">🎯</span>Deep vertical expertise<div class="pb"></div></div>
+          <div class="chip cp" data-v="so simple anyone can use it without training"><span class="emo">✨</span>Radically simple<div class="pb"></div></div>
+        </div>
+      </div>
+      <div class="fsec fa">
+        <div class="fsh"><div><div class="fst">Where are you right now?</div><div class="fss">Your stage shapes your positioning approach</div></div><div class="fbadge ba">Single select</div></div>
+        <div class="cw" id="q5">
+          <div class="chip ca" data-v="pre-launch — still building"><span class="emo">🔨</span>Pre-launch<div class="pb"></div></div>
+          <div class="chip ca" data-v="just launched — first users coming in"><span class="emo">🚀</span>Just launched<div class="pb"></div></div>
+          <div class="chip ca" data-v="early traction — finding product-market fit"><span class="emo">🌱</span>Early traction<div class="pb"></div></div>
+          <div class="chip ca" data-v="scaling — have PMF and growing fast"><span class="emo">📈</span>Scaling fast<div class="pb"></div></div>
+        </div>
+      </div>
+      <button class="fsub" id="subBtn" onclick="generate()"><span class="sp">✦</span>Decode My Positioning</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div class="overlay" id="loadOv">
+  <div class="loading-box">
+    <div class="lsp"></div>
+    <div class="lt">Decoding your signal...</div>
+    <div class="ls">Building your positioning breakdown. About 15 seconds.</div>
+    <div class="lsteps">
+      <div class="lstep" id="ls1">Analyzing space</div>
+      <div class="lstep" id="ls2">Mapping customer</div>
+      <div class="lstep" id="ls3">Finding enemy</div>
+      <div class="lstep" id="ls4">Writing tagline</div>
+      <div class="lstep" id="ls5">Building angles</div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="overlay" id="resOv">
+  <div class="rm">
+    <div class="rnav">
+      <div class="rnb">PositioningDecoded</div>
+      <div class="rnr">
+        <button class="brs" onclick="openShare()">Share your roast 🔥</button>
+        <button class="brl" id="clBtn" onclick="copyLink()">Copy link</button>
+        <button class="brp" onclick="window.print()">Download brand bible</button>
+        <button class="brc" onclick="closeOv('resOv')">✕ Close</button>
+      </div>
+    </div>
+    <div class="rb">
+      <div class="bby">Built by <a href="https://linkedin.com/in/shivanitanuja" target="_blank">Shivani Tanuja</a> · PM who builds</div>
+      <div class="pnote" id="pnote"></div>
+      <div class="tldr au" style="animation-delay:.05s">
+        <div class="ti2"><div class="tl2" style="color:var(--amber)">Tagline</div><div class="tv" id="tlTag"></div></div>
+        <div class="ti2"><div class="tl2" style="color:var(--pink)">Your enemy</div><div class="tv" id="tlEnemy"></div></div>
+        <div class="ti2"><div class="tl2" style="color:var(--purple)">What makes you weird</div><div class="tv" id="tlWeird"></div></div>
+      </div>
+      <div class="cb au" style="animation-delay:.1s">
+        <div class="cn" id="rCo"></div>
+        <div class="cl" id="rOl"></div>
+        <div class="cwm">Generated by PositioningDecoded</div>
+      </div>
+      <div class="rg3 au" style="animation-delay:.15s">
+        <div class="rc"><div class="rcb" style="background:var(--coral)"></div><div class="rl" style="color:var(--coral)"><div class="rld" style="background:var(--coral)"></div>Positioning Statement</div><div class="rst" id="rStmt"></div></div>
+        <div class="rc"><div class="rcb" style="background:var(--amber)"></div><div class="rl" style="color:var(--amber)"><div class="rld" style="background:var(--amber)"></div>Your Tagline</div><div class="rtg" id="rTag"></div><div class="rtw" id="rTw"></div></div>
+        <div class="rc"><div class="rcb" style="background:var(--pink)"></div><div class="rl" style="color:var(--pink)"><div class="rld" style="background:var(--pink)"></div>Your Enemy</div><div class="er"><div class="ei">⚔️</div><div><div class="en" id="rEn"></div><div class="ew" id="rEw"></div></div></div></div>
+      </div>
+      <div class="rg2 au" style="animation-delay:.2s">
+        <div class="rc"><div class="rcb" style="background:var(--sky)"></div><div class="rl" style="color:var(--sky)"><div class="rld" style="background:var(--sky)"></div>Category Play</div><div class="cp2" id="rCat"></div><div class="rbdy" id="rCatD"></div></div>
+        <div class="rc" style="background:rgba(123,94,167,.12);border-color:rgba(123,94,167,.25)"><div class="rcb" style="background:var(--purple)"></div><div class="rl" style="color:var(--purple)"><div class="rld" style="background:var(--purple)"></div>What Makes You Weird</div><div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.8" id="rWeird"></div></div>
+      </div>
+      <div class="rgf rc au" style="animation-delay:.25s"><div class="rcb" style="background:var(--mint)"></div><div class="rl" style="color:var(--mint);margin-bottom:16px"><div class="rld" style="background:var(--mint)"></div>3 Messaging Angles</div><div class="ag" id="rAng"></div></div>
+      <div class="rgf rc au" style="animation-delay:.3s"><div class="rcb" style="background:var(--amber)"></div><div class="rl" style="color:var(--amber);margin-bottom:16px"><div class="rld" style="background:var(--amber)"></div>First 3 Content Ideas</div><div class="cil" id="rCont"></div></div>
+      <div class="chcard au" style="animation-delay:.35s"><div class="rcb" style="background:var(--coral)"></div><div class="rl" style="color:var(--coral);margin-bottom:10px"><div class="rld" style="background:var(--coral)"></div>A Challenge For You</div><div style="font-family:'Fraunces',serif;font-size:clamp(1rem,2vw,1.4rem);font-weight:700;font-style:italic;color:white;line-height:1.4" id="rChal"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHARE -->
+<div class="overlay" id="shareOv">
+  <div class="sbox">
+    <div class="stit">Share your positioning roast</div>
+    <div class="ssub">Copy this post to LinkedIn. This is how other founders discover the tool.</div>
+    <div class="spost" id="sText"></div>
+    <div class="sacts"><button class="bcopy" onclick="copyPost()">Copy to clipboard</button><button class="bsc" onclick="closeOv('shareOv')">Close</button></div>
+  </div>
+</div>
+
+<script>
+const DEMOS={apollo:{company:'Apollo.io',one_liner:'Apollo is the AI-native sales platform that arms revenue teams with the data and automation to stop guessing and start closing.',personalization_note:'Your brand bible is built around Sales Leaders as your primary customer and driving revenue growth as your most critical problem.',positioning_statement:"Apollo closes the gap between a rep's effort and their results — replacing the manual prospecting grind with an AI engine that finds, qualifies, and sequences leads before your team even logs in.",tagline:'Sales at Machine Speed',tagline_why:'Machine Speed speaks to the sales leader obsession with velocity while signaling AI is the engine, not an afterthought.',enemy:"The soul-crushing manual grind where reps spend most of their week on admin, chasing bad data, and sending emails that land in the void instead of actually selling.",enemy_why:"Every sales leader has watched good reps burn out on busywork. This enemy is visceral and personal.",category_name:'Revenue Intelligence Engine',category_description:"Apollo is redefining sales enablement by positioning as an AI-first revenue engine rather than another tool. This commands premium pricing because they sell transformation, not software.",messaging_angles:[{type:'Functional',color:'#00B4D8',message:"Responds instantly to prospect behavior — follow-up lands when intent is highest, not three days later when they've forgotten you exist."},{type:'Emotional',color:'#FF4D8D',message:"Your reps wake up to qualified meetings already booked. Monday becomes the best day of their week."},{type:'Contrarian',color:'#7B5EA7',message:"Manual prospecting is not a discipline problem. It is a signal that your sales system is broken at the foundation."}],weird_thing:"Apollo's real secret is they don't sell to salespeople. They sell to the leader who is tired of babysitting adults through basic prospecting. The buyer doesn't want better tools. They want to become the leader who delivers impossible numbers while competitors scramble with spreadsheets.",positioning_challenge:"If this positioning feels too aggressive for you to say out loud, that is exactly why it will work.",content_ideas:[{platform:'LinkedIn',color:'#00B4D8',idea:'Post: The best sales teams are not working harder. They stopped doing work that AI can do better. Here is what that looks like.'},{platform:'Twitter / X',color:'#FF5A36',idea:"Thread: We audited 50 sales teams. The ones hitting quota all had one thing in common. It wasn't what we expected."},{platform:'Talk or Demo',color:'#00C48C',idea:'Live demo: Build a month of qualified pipeline in 30 minutes while the audience watches. Call it The 30-Minute Pipeline.'}]},linear:{company:'Linear',one_liner:"Linear is the issue tracker that engineers actually want to use — built for speed, not for managers who want dashboards.",personalization_note:'Your brand bible is built around Engineers as your primary customer and removing manual repetitive work as your most critical problem.',positioning_statement:"Linear gives engineers back the hours they lose to tool friction — replacing slow bloated project management with something that moves as fast as they think.",tagline:'Built for builders, not bureaucrats.',tagline_why:'Directly names the enemy without naming competitors and immediately tells engineers this was made for them, not their managers.',enemy:'The soul-taxing overhead of project management tools designed for quarterly planning meetings, not shipping code.',enemy_why:'Engineers viscerally hate tools that slow them down. Naming this enemy creates instant recognition.',category_name:'Engineering-Native Project Intelligence',category_description:"Linear creates a category where the project tool shapes itself around engineering workflows rather than forcing engineers to adapt. This positions them as infrastructure, not software.",messaging_angles:[{type:'Functional',color:'#00B4D8',message:"Opens in under 50ms. Every action has a keyboard shortcut. The tool disappears so the work can happen."},{type:'Emotional',color:'#FF4D8D',message:'You open it and it is already where you need to be. No hunting, no loading. Just the work.'},{type:'Contrarian',color:'#7B5EA7',message:"The reason your team ignores Jira is not a process problem. It is a product problem. You gave them a tool built for someone else."}],weird_thing:"Linear's most counterintuitive move is proudly not serving product managers or executives first. In a market where every tool competes to be everything for everyone, Linear wins by being the tool engineers defend in every tooling discussion.",positioning_challenge:"This positioning only works if you are willing to let go of being the tool that makes managers feel in control.",content_ideas:[{platform:'LinkedIn',color:'#00B4D8',idea:'Post: We measured how much time engineers spend fighting their project management tools. The number will make you uncomfortable.'},{platform:'Twitter / X',color:'#FF5A36',idea:'Thread: The best engineering teams all have unusually strong opinions about their issue tracker. And that opinion is always the same.'},{platform:'Talk or Demo',color:'#00C48C',idea:'Live speedrun: Complete 10 common tasks in Linear vs Jira. Time both. Let the audience score it.'}]},loom:{company:'Loom',one_liner:"Loom is the async video tool that replaces the meetings you hate and the emails nobody reads.",personalization_note:'Your brand bible is built around Remote Teams as your primary customer and enabling collaboration as your most critical problem.',positioning_statement:"Loom kills the meeting that could have been a message — giving remote teams a way to communicate with the clarity of in-person and the efficiency of async.",tagline:'One video worth a thousand words.',tagline_why:"Riffs on a universally known phrase and positions video as the superior medium without being preachy.",enemy:"The 45-minute meeting that exists because nobody trusted an email would be read — and the email chain that follows the meeting nobody needed.",enemy_why:'Remote workers universally feel meeting overload. This enemy makes them feel understood instantly.',category_name:'Async Video Communication',category_description:"Loom created a category before the market understood it existed. The pandemic made it inevitable and Loom was already there.",messaging_angles:[{type:'Functional',color:'#00B4D8',message:"Record your screen and face in one click. The person watches when ready, pauses to think, and replies with their own video."},{type:'Emotional',color:'#FF4D8D',message:"You get your calendar back. The 3pm meeting that interrupted your flow becomes a 4-minute video they watch tomorrow morning."},{type:'Contrarian',color:'#7B5EA7',message:"Meetings don't exist because they are the best way to communicate. They exist because nobody built a better alternative until now."}],weird_thing:"Loom's most powerful angle is they are not competing with Zoom or Google Meet. They are competing with the assumption that everyone needs to be in the same virtual room at the same time. That assumption is what Loom is actually replacing.",positioning_challenge:"This positioning requires you to tell your best customers that the meeting culture they built is the problem. Are you ready to say that?",content_ideas:[{platform:'LinkedIn',color:'#00B4D8',idea:"Post: I calculated how much the average knowledge worker's meeting schedule costs the company. Then I sent it to my CEO as a Loom."},{platform:'Twitter / X',color:'#FF5A36',idea:'Thread: The companies with the best remote culture all have one unusual policy about meetings. It is not what you think.'},{platform:'Talk or Demo',color:'#00C48C',idea:'Demo: Run an entire 30-minute talk as a series of Loom videos with no live speaking. Show how much the audience retained.'}]}};
+
+const KNOWN_CTX={
+'apollo':'Known as a high-volume B2B prospecting and sequencing platform — one-stop shop for data, outreach, and automation. Market perception: powerful but can feel like a firehose. Core tension: breadth vs. ease of use for reps who just want to sell.',
+'apolloio':'Known as a high-volume B2B prospecting and sequencing platform — one-stop shop for data, outreach, and automation. Market perception: powerful but can feel like a firehose. Core tension: breadth vs. ease of use for reps who just want to sell.',
+'linear':'Known for engineering-grade speed and keyboard-first project management. Engineers defend it in every tooling debate. Core tension: built so well for devs that PMs feel like afterthoughts.',
+'notion':'Known as the all-in-one workspace that replaces everything — and means different things to everyone who uses it. Market perception: powerful but decision-paralysis-inducing. Core tension: infinite flexibility vs. "just tell me what to do".',
+'loom':'Known for async video messaging that reduces meeting overhead. Market perception: beloved for remote work, but adoption stalled post-pandemic normalization. Core tension: personal communication tool trying to become enterprise infrastructure.',
+'figma':'Known as the design tool that replaced desktop software and made collaboration a core feature. Market perception: the unquestioned default for UI/UX. Core tension: won design but now fighting to own the broader product workflow.',
+'slack':'Known as real-time team messaging that killed internal email — then became the inbox it replaced. Market perception: essential but accused of creating always-on anxiety. Core tension: the communication tool that became the productivity liability.',
+'airtable':'Known as a spreadsheet with superpowers that unlocked non-engineers to build workflows. Market perception: flexible and beloved, but struggles to be taken seriously as enterprise infrastructure. Core tension: power users love it; IT teams are skeptical.',
+'intercom':'Known as customer messaging across the full lifecycle — support, onboarding, and sales. Market perception: strong brand, seen as expensive for what you get. Core tension: started with simplicity, grew into complexity.',
+'hubspot':'Known as the SMB-friendly CRM and marketing suite that made inbound mainstream. Market perception: comprehensive but seen as "lite" compared to Salesforce. Core tension: SMB roots vs. enterprise ambitions.',
+'salesforce':'Known as the dominant enterprise CRM — the system of record for every revenue team. Market perception: indispensable and universally complained about. Core tension: no one wants to use it, and no one can leave.',
+'stripe':'Known as developer-first payments infrastructure. Market perception: the default for startups, increasingly enterprise. Core tension: beloved by devs but pricing complexity bites at scale.',
+'plaid':'Known as the financial data layer that connects apps to bank accounts. Market perception: invisible infrastructure — unsexy but critical. Core tension: powerful network effect, meaningful regulatory exposure.',
+'rippling':'Known as the workforce platform that finally connects HR, IT, and Finance in one system. Market perception: fast-growing challenger with unusually broad scope. Core tension: ambitious category creation vs. "what exactly are you?" confusion.',
+'brex':'Known as the corporate card built for startups. Market perception: sleek, startup-native alternative to legacy cards. Core tension: founded for startups, now targeting enterprise without losing the original story.',
+'ramp':'Known as the cost-cutting corporate card and finance automation tool. Market perception: the responsible, finance-team-friendly alternative to Brex. Core tension: a savings narrative that caps ceiling when budgets loosen.',
+'clickup':'Known as the "one app to replace them all" project management platform. Market perception: feature-dense, aggressively priced, tries to be everything. Core tension: breadth creates a complexity perception that specialist tools exploit.',
+'asana':'Known as workflow and project management championed by task-focused PMs. Market perception: mature and reliable. Core tension: loses to Linear among engineers and to Notion among flexible teams.',
+'retool':'Known as the low-code platform for building internal tools fast. Market perception: saves engineering hours, beloved by BizOps. Core tension: powerful for known use cases, requires real effort to handle edge cases.',
+'vercel':'Known as the frontend deployment platform with the best developer experience. Market perception: the default for Next.js projects and DX-obsessed teams. Core tension: developers love it, enterprise story still maturing.',
+'cursor':'Known as the AI-first code editor that makes developers feel like they move 10x faster. Market perception: fast-growing, developer-beloved, seen by many as the future of coding. Core tension: viral adoption but enterprise security concerns slow it down.',
+'zapier':'Known as the automation layer between apps — connect anything, no code needed. Market perception: the reliable but unglamorous backbone of ops workflows. Core tension: massive user base increasingly challenged by AI-native alternatives.',
+'canva':'Known as the design tool that democratized professional-looking graphics. Market perception: everyone uses it; designers have complicated feelings about it. Core tension: consumer beloved, enterprise adoption still developing.',
+'gusto':'Known as the small business payroll and HR platform that makes compliance non-terrifying. Market perception: beloved by founders and HR at SMBs. Core tension: sticky product in a market that keeps commoditizing.',
+'anthropic':'Known as the AI safety company behind Claude — serious technical credibility, competing directly with OpenAI. Market perception: trusted for safety-consciousness, sometimes seen as moving slower commercially. Core tension: safety-first framing vs. need to grow aggressively.',
+'openai':'Known as the company that made AI mainstream with ChatGPT. Market perception: dominant mindshare, increasingly seen as a platform company. Core tension: research origin vs. intense commercial pressure.',
+'mixpanel':'Known for product analytics that shows how users actually behave. Market perception: the serious product analytics choice. Core tension: powerful but requires real analyst investment to extract consistent value.',
+'amplitude':'Known for behavioral analytics and digital optimization. Market perception: more enterprise-ready than Mixpanel, stronger in data governance. Core tension: analytics depth vs. time-to-insight.',
+'segment':'Known as the customer data infrastructure that unifies event tracking across tools. Market perception: essential for data-mature companies, confusing for everyone else. Core tension: powerful for engineers, opaque for marketers.',
+'datadog':'Known as the cloud monitoring and observability platform for engineering and DevOps. Market perception: expensive but best-in-class. Core tension: pricing model creates friction exactly when you scale into it.',
+'jerry':'Known as an AI-powered car insurance marketplace that finds you better rates. Market perception: consumer-friendly alternative to broker chaos. Core tension: insurance is a grudge purchase — the UX is good but the category is hard to love.',
+'mintlify':'Known as the developer documentation platform that makes docs feel like a product. Market perception: fast-growing, loved by dev-first companies tired of bad docs. Core tension: beautiful docs are still docs — adoption requires cultural change.',
+'outset':'Known as AI-powered qualitative research for product and UX teams. Market perception: promising alternative to expensive user interviews. Core tension: AI-generated insight vs. trust that comes from real human conversations.',
+'hyperscale':'Known as AI-generated personalized video outreach at scale. Market perception: interesting category, skepticism about whether personalization at volume still feels personal. Core tension: the whole point breaks if buyers smell automation.',
+'pylon':'Known as the B2B customer support platform built for Slack-first companies. Market perception: fills a real gap that Zendesk ignores. Core tension: power concentrated in one channel — what happens when enterprise customers want email or phone too.',
+'lumaai':'Known as AI video generation with unusually high production quality. Market perception: one of the most impressive demos in the space. Core tension: demo quality is extraordinary but production use cases for non-creators are still forming.',
+'netapp':'Known as enterprise data infrastructure and storage — decades of reliability. Market perception: incumbent with deep enterprise trust, less associated with innovation. Core tension: cloud and AI-native competitors eating the edges of a loyal but aging base.',
+'glean':'Known as enterprise AI search that works across all your internal tools and docs. Market perception: the grown-up answer to "why can\'t I find anything at work." Core tension: depends entirely on data quality and IT buy-in to deliver on the promise.',
+};
+function getKnownCtx(name){const k=name.toLowerCase().replace(/[\s\.\-_,!]/g,'');return KNOWN_CTX[k]||null;}
+
+function getFingerprint(){const f=[navigator.userAgent,screen.width,screen.height,Intl.DateTimeFormat().resolvedOptions().timeZone,navigator.language].join('|');let h=0;for(let i=0;i<f.length;i++){h=((h<<5)-h)+f.charCodeAt(i);h|=0;}return Math.abs(h).toString(36);}
+function getFreeRunsLeft(){const fp=getFingerprint();const u=JSON.parse(localStorage.getItem('pd_runs')||'{}');return Math.max(0,3-(u[fp]||0));}
+function markUsedFree(){const fp=getFingerprint();const u=JSON.parse(localStorage.getItem('pd_runs')||'{}');u[fp]=(u[fp]||0)+1;localStorage.setItem('pd_runs',JSON.stringify(u));}
+
+function openOv(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+function closeOv(id){document.getElementById(id).classList.remove('open');if(!document.querySelector('.overlay.open'))document.body.style.overflow='';}
+
+function openDemo(k){const d=DEMOS[k];window._bd={...d};renderResults(d,d.company);openOv('resOv');}
+
+function openFreeModal(){
+  const left=getFreeRunsLeft();
+  const used=left===0;
+  document.getElementById('freeRunsLeft').textContent=used?'You\'ve used all 3 free runs.':left+' free '+(left===1?'generation':'generations')+' remaining.';
+  document.getElementById('usedMsg').style.display=used?'block':'none';
+  document.getElementById('apiField').style.display=used?'block':'none';
+  openOv('freeOverlay');
+}
+
+function startForm(){
+  const co=document.getElementById('fmCo').value.trim();
+  const email=document.getElementById('fmEmail').value.trim();
+  const key=document.getElementById('fmKey').value.trim();
+  if(!co){alert('Please enter your startup name.');return;}
+  const left=getFreeRunsLeft();
+  const used=left===0;
+  if(used&&!key){alert('Please enter your Anthropic API key to generate more breakdowns.');return;}
+  if(used&&!key.startsWith('sk-ant-')){alert('That does not look like a valid Anthropic API key.');return;}
+  if(email)localStorage.setItem('pd_email',email);
+  window._pendCo=co;
+  window._pendKey=used?key:'__FREE__';
+  document.getElementById('qCo').value=co;
+  closeOv('freeOverlay');
+  openOv('formOverlay');
+}
+
+function setupSingle(id){document.querySelectorAll('#'+id+' .chip').forEach(c=>{c.addEventListener('click',()=>{document.querySelectorAll('#'+id+' .chip').forEach(x=>{x.classList.remove('sel');x.querySelector('.pb').textContent='';});c.classList.add('sel');c.querySelector('.pb').textContent='1';updateProg();});});}
+function setupMulti(id,max){const ord=[];document.querySelectorAll('#'+id+' .chip').forEach(c=>{c.addEventListener('click',()=>{const i=ord.indexOf(c);if(i>-1){ord.splice(i,1);c.classList.remove('sel');c.querySelector('.pb').textContent='';ord.forEach((x,j)=>x.querySelector('.pb').textContent=j+1);}else if(ord.length<max){ord.push(c);c.classList.add('sel');c.querySelector('.pb').textContent=ord.length;}updateProg();});});return ord;}
+setupSingle('q1');setupSingle('q5');
+const q2o=setupMulti('q2',10),q3o=setupMulti('q3',3),q4o=setupMulti('q4',3);
+function gv(id){const s=document.querySelector('#'+id+' .sel');return s?s.dataset.v:null;}
+function go(a){return a.map(c=>c.dataset.v);}
+function updateProg(){const d=[gv('q1'),q2o.length>0,q3o.length>0,q4o.length>0,gv('q5')].filter(Boolean).length;document.getElementById('pFill').style.width=(d/5*100)+'%';document.getElementById('pLabel').textContent=d+' of 5';}
+
+let stepT;
+function startSteps(){['ls1','ls2','ls3','ls4','ls5'].forEach(s=>document.getElementById(s).classList.remove('active'));let i=0;stepT=setInterval(()=>{if(i<5){document.getElementById('ls'+(i+1)).classList.add('active');i++;}},1800);}
+
+async function generate(){
+  const q1=gv('q1'),q2=go(q2o),q3=go(q3o),q4=go(q4o),q5=gv('q5');
+  const co=document.getElementById('qCo').value.trim();
+  const desc=document.getElementById('qDesc').value.trim();
+  if(!q1)return showErr('Please select your category.');
+  if(!q2.length)return showErr('Please select at least one customer type.');
+  if(!q3.length)return showErr('Please select at least one core problem.');
+  if(!q4.length)return showErr('Please select how you are different.');
+  if(!q5)return showErr('Please select your current stage.');
+  hideErr();
+  document.getElementById('subBtn').disabled=true;
+  closeOv('formOverlay');
+  openOv('loadOv');
+  startSteps();
+  const isFree=window._pendKey==='__FREE__';
+  const WORKER_URL='https://pd-proxy.shivanitanuja9.workers.dev';
+  const knownCtx=getKnownCtx(co);
+  const prompt=`You are a world-class brand strategist. Create a genuinely unique, specific brand bible for this startup. Every output must feel tailor-made, not generic.\n\nCRITICAL: No dashes to start sentences. No em-dashes. Write in complete, confident, sharp sentences.\nCRITICAL: Prefer sharp strategic interpretation over factual description. You are not summarizing — you are diagnosing. Say what others won't.\n\nCOMPANY: ${co}\n${desc?'DESCRIPTION: '+desc:''}\nCATEGORY: ${q1}\nPRIMARY CUSTOMER: ${q2[0]}\nALL CUSTOMERS: ${q2.join(', ')}\nTOP PROBLEM: ${q3[0]}\nALL PROBLEMS: ${q3.join(', ')}\nTOP DIFFERENTIATOR: ${q4[0]}\nALL DIFFERENTIATORS: ${q4.join(', ')}\nSTAGE: ${q5}\n${knownCtx?'MARKET CONTEXT (interpret this — do not repeat it verbatim): '+knownCtx:''}\n\nReturn ONLY valid JSON, no markdown, no backticks:\n{"one_liner":"one specific sentence, human not corporate","personalization_note":"Start with Your brand bible is built around then mention ${q2[0]} and ${q3[0]}. One sentence.","positioning_statement":"Sharp declarative claim. NOT the We help X template. Aggressive and memorable. Like Apollo closes the gap between rep effort and results.","tagline":"3 to 6 words. Creates tension or disbelief. Not AI-powered or The Future of.","tagline_why":"Strategic logic behind these exact words. One sentence.","enemy":"The old way or broken system. Visceral and specific.","enemy_why":"Why this creates emotional tension for ${q2[0]}.","category_name":"Specific inevitable-sounding category name.","category_description":"Two sentences on category strategy.","messaging_angles":[{"type":"Functional","color":"#00B4D8","message":"Believable specific behavior change, not a metric."},{"type":"Emotional","color":"#FF4D8D","message":"Paint a specific visual moment. Make them see it."},{"type":"Contrarian","color":"#7B5EA7","message":"Hits hard. Triggers ${q2[0]}, does not just inform them."}],"weird_thing":"Counterintuitive angle nobody else would say. 2 to 3 sentences. No dashes.","positioning_challenge":"One line of productive discomfort. If this feels too aggressive it is probably right type energy.","content_ideas":[{"platform":"LinkedIn","color":"#00B4D8","idea":"Specific hot take that will start arguments in the comments."},{"platform":"Twitter / X","color":"#FF5A36","idea":"Punchy thread for ${q2[0]} that makes them feel seen and a little called out."},{"platform":"Talk or Demo","color":"#00C48C","idea":"Live demo concept that makes the audience uncomfortable in a good way."}]}`;
+  try{
+    const payload=JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:prompt}]});
+    const res=await(isFree
+      ?fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:payload})
+      :fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':window._pendKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:payload}));
+    clearInterval(stepT);
+    if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'API error');}
+    const data=await res.json();const raw=data.content[0].text.trim();
+    let parsed;try{parsed=JSON.parse(raw);}catch{const m=raw.match(/\{[\s\S]*\}/);if(!m)throw new Error('Could not parse response.');parsed=JSON.parse(m[0]);}
+    if(isFree)markUsedFree();
+    window._bd={...parsed,company:co};
+    closeOv('loadOv');renderResults(parsed,co);openOv('resOv');
+  }catch(e){
+    clearInterval(stepT);closeOv('loadOv');openOv('formOverlay');
+    document.getElementById('subBtn').disabled=false;showErr(e.message);
+  }
+}
+
+function renderResults(d,co){
+  document.getElementById('rCo').textContent=co;
+  document.getElementById('rOl').textContent=d.one_liner;
+  document.getElementById('pnote').innerHTML='<strong>Personalized for '+co+':</strong> '+d.personalization_note;
+  document.getElementById('tlTag').textContent='"'+d.tagline+'"';
+  document.getElementById('tlEnemy').textContent=(d.enemy||'').split('.')[0]+'.';
+  document.getElementById('tlWeird').textContent=(d.weird_thing||'').split('.')[0]+'.';
+  document.getElementById('rStmt').textContent=d.positioning_statement;
+  document.getElementById('rTag').textContent='"'+d.tagline+'"';
+  document.getElementById('rTw').textContent=d.tagline_why;
+  document.getElementById('rEn').textContent=d.enemy;
+  document.getElementById('rEw').textContent=d.enemy_why;
+  document.getElementById('rCat').textContent=d.category_name;
+  document.getElementById('rCatD').textContent=d.category_description;
+  document.getElementById('rWeird').textContent=d.weird_thing;
+  const ch=document.getElementById('rChal');if(ch)ch.textContent=d.positioning_challenge||'';
+  document.getElementById('rAng').innerHTML=d.messaging_angles?.map(a=>'<div class="agi" style="background:'+a.color+'18;border:1px solid '+a.color+'33"><div class="agt" style="color:'+a.color+'">'+a.type+'</div><div class="agm">'+a.message+'</div></div>').join('')||'';
+  document.getElementById('rCont').innerHTML=d.content_ideas?.map((c,i)=>'<div class="cii"><div class="cin">'+(i+1)+'</div><div><div class="cip" style="color:'+c.color+'">'+c.platform+'</div><div class="cid">'+c.idea+'</div></div></div>').join('')||'';
+}
+
+function openShare(){
+  const d=window._bd;if(!d)return;
+  const post='I put '+(d.company||'my startup')+' through PositioningDecoded.\n\nThe output was uncomfortable. In a good way.\n\nTagline: "'+d.tagline+'"\n\nThe enemy they named: '+((d.enemy||'').split('.')[0])+'.\n\nThe thing they said that I couldn\'t argue with: '+((d.weird_thing||'').split('.')[0])+'.\n\nTook 5 questions. Less than a minute. Built by a PM, not a consultant.\n\nLink in comments if you want yours roasted.\n\n— via PositioningDecoded by Shivani Tanuja';
+  document.getElementById('sText').textContent=post;openOv('shareOv');
+}
+function copyPost(){navigator.clipboard.writeText(document.getElementById('sText').textContent).then(()=>{const b=document.querySelector('.bcopy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy to clipboard',2000);});}
+
+function copyLink(){
+  if(!window._bd)return;
+  try{const enc=btoa(encodeURIComponent(JSON.stringify(window._bd)));const url=window.location.href.split('#')[0]+'#r='+enc;navigator.clipboard.writeText(url).then(()=>{const b=document.getElementById('clBtn');b.textContent='✓ Copied!';setTimeout(()=>b.textContent='Copy link',2500);});}catch(e){alert('Could not copy link.');}
+}
+
+window.addEventListener('load',()=>{
+  const h=window.location.hash;
+  if(h&&h.startsWith('#r=')){try{const d=JSON.parse(decodeURIComponent(atob(h.slice(3))));window._bd=d;renderResults(d,d.company||'Your Company');openOv('resOv');}catch(e){}}
+});
+
+function showErr(m){const e=document.getElementById('fErr');e.textContent=m;e.style.display='block';}
+function hideErr(){document.getElementById('fErr').style.display='none';}
+</script>
+</body>
+</html>
