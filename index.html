@@ -174,136 +174,145 @@ nav{padding:20px 64px;display:flex;align-items:center;justify-content:space-betw
 .au{animation:fadeUp .4s ease both}
 @media print{.bg,.rnav,.bby,.pnote,.chcard{display:none!important}.rm{background:white!important;border-radius:0;max-height:none}.rb{padding:20px!important}.rc{background:#F8F8F8!important;border:1px solid #ddd!important;break-inside:avoid}.cn,.rst,.rtg,.en,.cp2,.rl,.agt,.cip{color:var(--ink)!important}.cl,.rtw,.rbdy,.ew,.agm,.cid{color:#444!important}.rg3,.rg2,.ag,.tldr{grid-template-columns:repeat(3,1fr)!important}}
 /* ============================= */
-/* ✅ CLEAN RESPONSIVE FIX       */
+/* RESPONSIVE                    */
 /* ============================= */
 
-/* ===== MOBILE ONLY ===== */
+/* ===== MOBILE ===== */
 @media (max-width: 767px) {
 
   nav {
-    padding: 16px 20px;
+    padding: 14px 20px;
+  }
+
+  .nav-tag {
+    font-size: 10px;
+    padding: 4px 10px;
   }
 
   .hero {
     grid-template-columns: 1fr;
-    gap: 28px;
-    padding: 24px 20px 32px;
+    gap: 36px;
+    padding: 20px 20px 48px;
   }
 
+  .hero-eyebrow { margin-bottom: 14px; }
+
   .hero-h1 {
-    font-size: 2.2rem;
-    line-height: 1.1;
+    font-size: 2.4rem;
+    line-height: 1;
+    margin-bottom: 16px;
   }
 
   .hero-pov {
     font-size: 14px;
-  }
-
-  .cta-stack {
     max-width: 100%;
   }
 
-  .btn-primary {
+  .cta-stack { max-width: 100%; }
+  .btn-primary { width: 100%; font-size: 1rem; padding: 16px; }
+  .btn-hint { font-size: 11px; }
+
+  .demo-card { padding: 12px 16px; }
+  .demo-card-icon { font-size: 22px; }
+  .demo-card-name { font-size: 0.9rem; }
+  .demo-card-desc { font-size: 11px; }
+
+  /* How strip stays 2-col on mobile — more compact */
+  .how-strip { grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .how-item { padding: 10px 12px; }
+  .how-num { font-size: 1.1rem; }
+  .how-title { font-size: 11px; }
+  .how-desc { font-size: 10px; }
+
+  /* Bottom-sheet overlays on mobile */
+  .overlay { padding: 0; align-items: flex-end; }
+
+  /* Loading stays centered */
+  #loadOv { align-items: center; padding: 20px; }
+  .loading-box { border-radius: 20px; width: 100%; }
+
+  /* Free modal — bottom sheet */
+  .free-modal {
+    border-radius: 20px 20px 0 0;
+    padding: 28px 24px 44px;
     width: 100%;
+    max-width: 100%;
+    max-height: 92vh;
+    overflow-y: auto;
   }
+  .free-modal-title { font-size: 1.5rem; }
+  .free-modal-sub { font-size: 13px; }
 
-  .demo-card {
-    padding: 14px;
+  /* Form modal — full screen */
+  .form-modal {
+    border-radius: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100vh;
+    height: 100dvh;
   }
+  .form-modal-nav { padding: 14px 20px; }
+  .pbar { width: 80px; }
+  .fbody { padding: 14px 16px; }
+  .fsec { padding: 18px 16px; margin-bottom: 10px; }
+  .fst { font-size: 1.05rem; }
+  .fss { font-size: 11px; }
+  .fsh { margin-bottom: 14px; }
+  .row2 { grid-template-columns: 1fr; gap: 10px; }
+  .chip { font-size: 11px; padding: 8px 12px; }
+  .fsub { font-size: 1rem; padding: 16px; }
 
-  .how-strip {
-    grid-template-columns: 1fr;
+  /* Results — full screen */
+  .rm {
+    border-radius: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100vh;
+    height: 100dvh;
   }
-
-  .row2 {
-    grid-template-columns: 1fr;
-  }
-
-  .rg3,
-  .rg2,
-  .tldr,
-  .ag {
-    grid-template-columns: 1fr;
-  }
-
-  /* Results header FIX */
-  .rnav {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
+  .rnav { padding: 12px 16px; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .rnb { font-size: 0.9rem; flex: 1; }
+  .rnav > .brc { margin-left: auto; padding: 6px 12px; font-size: 12px; }
   .rnr {
     width: 100%;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 6px;
   }
+  /* Share spans full width — primary action */
+  .brs { grid-column: 1 / -1; padding: 11px; font-size: 13px; font-weight: 700; }
+  .brl, .brp { font-size: 11px; padding: 8px 6px; text-align: center; }
+  .rb { padding: 20px 16px 48px; }
+  .bby { text-align: left; }
+  .tldr { grid-template-columns: 1fr; gap: 8px; margin-bottom: 20px; }
+  .cn { font-size: 2rem; }
+  .cl { font-size: 0.9rem; }
+  .rg3, .rg2 { grid-template-columns: 1fr; gap: 10px; }
+  .ag { grid-template-columns: 1fr; gap: 10px; }
+  .rc { padding: 18px 16px; }
+  .rst { font-size: 0.95rem; }
+  .chcard { padding: 18px 16px; }
 
-  .rnr button {
-    flex: 1;
-    font-size: 11px;
-    padding: 8px;
-  }
-
-  /* Modal fix */
-  .overlay {
-    align-items: flex-start;
-  }
-
-  .free-modal,
-  .form-modal,
-  .rm {
+  /* Share — bottom sheet */
+  .sbox {
+    border-radius: 20px 20px 0 0;
+    padding: 24px 20px 44px;
     width: 100%;
     max-width: 100%;
-    border-radius: 16px;
-    padding: 16px;
   }
 
-  .fbody {
-    padding: 12px;
-  }
-
-  /* Chips */
-  .chip {
-    font-size: 11px;
-    padding: 6px 10px;
-  }
-
-  /* Prevent overflow */
-  body {
-    overflow-x: hidden;
-  }
-
-  .rc,
-  .rbdy {
-    word-break: break-word;
-  }
+  body { overflow-x: hidden; }
+  .rc, .rbdy { word-break: break-word; }
 }
 
 /* ===== TABLET ===== */
 @media (min-width: 768px) and (max-width: 1023px) {
-
-  .hero {
-    grid-template-columns: 1fr;
-    padding: 40px 32px;
-  }
-
-  .how-strip {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .rg2,
-  .tldr,
-  .ag {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .free-modal,
-  .form-modal,
-  .rm {
-    max-width: 720px;
-    margin: auto;
-  }
+  .hero { grid-template-columns: 1fr; padding: 40px 40px; gap: 40px; }
+  .how-strip { grid-template-columns: 1fr 1fr 1fr; }
+  .rg3 { grid-template-columns: 1fr 1fr; }
+  .rg2, .tldr, .ag { grid-template-columns: 1fr 1fr; }
+  .free-modal, .sbox { max-width: 500px; }
+  .form-modal, .rm { max-width: 800px; }
 }
 
 /* ============================= */
@@ -465,11 +474,11 @@ nav{padding:20px 64px;display:flex;align-items:center;justify-content:space-betw
   <div class="rm">
     <div class="rnav">
       <div class="rnb">PositioningDecoded</div>
+      <button class="brc" onclick="closeOv('resOv')">✕</button>
       <div class="rnr">
-        <button class="brs" onclick="openShare()">Share your roast 🔥</button>
+        <button class="brs" onclick="openShare()">Share your breakdown ✦</button>
         <button class="brl" id="clBtn" onclick="copyLink()">Copy link</button>
-        <button class="brp" onclick="window.print()">Download brand bible</button>
-        <button class="brc" onclick="closeOv('resOv')">✕ Close</button>
+        <button class="brp" onclick="window.print()">Download PDF</button>
       </div>
     </div>
     <div class="rb">
@@ -504,8 +513,8 @@ nav{padding:20px 64px;display:flex;align-items:center;justify-content:space-betw
 <!-- SHARE -->
 <div class="overlay" id="shareOv">
   <div class="sbox">
-    <div class="stit">Share your positioning roast</div>
-    <div class="ssub">Copy this post to LinkedIn. This is how other founders discover the tool.</div>
+    <div class="stit">Share your breakdown</div>
+    <div class="ssub">Ready-to-post for LinkedIn. This is how other founders find the tool.</div>
     <div class="spost" id="sText"></div>
     <div class="sacts"><button class="bcopy" onclick="copyPost()">Copy to clipboard</button><button class="bsc" onclick="closeOv('shareOv')">Close</button></div>
   </div>
@@ -626,8 +635,10 @@ async function generate(){
       ?fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:payload})
       :fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':window._pendKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:payload}));
     clearInterval(stepT);
-    if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'API error');}
-    const data=await res.json();const raw=data.content[0].text.trim();
+    if(!res.ok){let msg='API error';try{const e=await res.json();msg=e.error?.message||msg;}catch(je){}throw new Error(msg);}
+    const data=await res.json();
+    if(!data.content||!data.content[0]||!data.content[0].text){throw new Error('No response received. Your Cloudflare Worker may not have the API key set — check Settings → Variables in Cloudflare.');}
+    const raw=data.content[0].text.trim();
     let parsed;try{parsed=JSON.parse(raw);}catch{const m=raw.match(/\{[\s\S]*\}/);if(!m)throw new Error('Could not parse response.');parsed=JSON.parse(m[0]);}
     if(isFree)markUsedFree();
     window._bd={...parsed,company:co};
@@ -660,7 +671,7 @@ function renderResults(d,co){
 
 function openShare(){
   const d=window._bd;if(!d)return;
-  const post='I put '+(d.company||'my startup')+' through PositioningDecoded.\n\nThe output was uncomfortable. In a good way.\n\nTagline: "'+d.tagline+'"\n\nThe enemy they named: '+((d.enemy||'').split('.')[0])+'.\n\nThe thing they said that I couldn\'t argue with: '+((d.weird_thing||'').split('.')[0])+'.\n\nTook 5 questions. Less than a minute. Built by a PM, not a consultant.\n\nLink in comments if you want yours roasted.\n\n— via PositioningDecoded by Shivani Tanuja';
+  const post='Just ran '+(d.company||'my startup')+' through PositioningDecoded and the output made me think.\n\nTagline it gave me: "'+d.tagline+'"\n\nThe enemy it named: '+((d.enemy||'').split('.')[0])+'.\n\nThe thing I couldn\'t argue with: '+((d.weird_thing||'').split('.')[0])+'.\n\n5 questions. Full positioning breakdown. Takes under a minute.\n\nLink in comments — try it on your own startup and tell me if the output is sharp or if it misses.\n\n(Built by Shivani Tanuja · PositioningDecoded)';
   document.getElementById('sText').textContent=post;openOv('shareOv');
 }
 function copyPost(){navigator.clipboard.writeText(document.getElementById('sText').textContent).then(()=>{const b=document.querySelector('.bcopy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy to clipboard',2000);});}
